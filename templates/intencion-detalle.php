@@ -22,7 +22,9 @@ for ($i = 0; $i < 10; $i++) {
                 <svg class="progress-ring rosary" width="200" height="240" viewBox="0 0 200 240">
                     <path class="progress-ring-circle" stroke="#e6e6e6" stroke-width="8" fill="transparent" d="M100 12 A88 88 0 1 1 100 188 A88 88 0 1 1 100 12 M100 188 L100 218 M90 218 L110 218 M100 218 L100 238" />
                     <path class="progress-ring-progress" stroke="#17a2b8" stroke-width="8" fill="transparent" d="M100 12 A88 88 0 1 1 100 188 A88 88 0 1 1 100 12 M100 188 L100 218 M90 218 L110 218 M100 218 L100 238" />
+
                     <?php echo $beadsMarkup; ?>
+
                 </svg>
                 <div class="progress-text">
                     <span class="porcentaje"><?php echo number_format($porcentaje, 1); ?>%</span>
