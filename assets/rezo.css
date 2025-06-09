@@ -144,6 +144,15 @@
   stroke-linecap: round;
 }
 
+.rosary-bead {
+  fill: #e6e6e6;
+  transition: fill 0.3s ease-in-out;
+}
+
+.rosary-bead.filled {
+  fill: #17a2b8;
+}
+
 .progress-text {
   position: absolute;
   top: 50%;
@@ -425,3 +434,4 @@
     width: calc(100% - 40px);
   }
 }
+

@@ -148,7 +148,25 @@ window.rezoFunctions = {
         const offset = length - (porcentaje / 100) * length
         path.css("stroke-dashoffset", offset)
       }
+
+      if ($(".rosary-bead").length) {
+        window.rezoFunctions.updateBeads(porcentaje)
+      }
     }
+  },
+
+  updateBeads: (porcentaje) => {
+    if (typeof window.jQuery === "undefined") return
+
+    const $ = window.jQuery
+    $(".rosary-bead").each(function (index) {
+      const threshold = (index + 1) * 10
+      if (porcentaje >= threshold) {
+        $(this).addClass("filled")
+      } else {
+        $(this).removeClass("filled")
+      }
+    })
   },
 
   initProgressCircle: () => {
@@ -178,6 +196,9 @@ window.rezoFunctions = {
     setTimeout(() => {
       const offset = length - (porcentaje / 100) * length
       path.css("stroke-dashoffset", offset)
+      if ($(".rosary-bead").length) {
+        window.rezoFunctions.updateBeads(porcentaje)
+      }
     }, 500)
   },
 }
@@ -233,3 +254,4 @@ if (typeof window.jQuery !== "undefined") {
     window.rezoFunctions.generarCaptcha()
   })
 }
+
