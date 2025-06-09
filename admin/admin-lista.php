@@ -96,21 +96,26 @@ $intenciones = $wpdb->get_results("SELECT * FROM $table_name ORDER BY activa DES
                         <?php if ($intencion->page_id): ?>
                             <a href="<?php echo get_permalink($intencion->page_id); ?>" class="button button-small" target="_blank" title="<?php echo $i18n->get('backend', 'btn_ver_pagina', 'Ver Página'); ?>">
                                 <span class="dashicons dashicons-external"></span>
+                                <?php echo $i18n->get('backend', 'btn_ver_pagina', 'Ver Página'); ?>
                             </a>
                         <?php endif; ?>
-                        
+
                         <a href="<?php echo admin_url('admin.php?page=rezo-comunitario-agregar&editar=' . $intencion->id); ?>" class="button button-small" title="<?php echo $i18n->get('backend', 'btn_editar', 'Editar'); ?>">
                             <span class="dashicons dashicons-edit"></span>
+                            <?php echo $i18n->get('backend', 'btn_editar', 'Editar'); ?>
                         </a>
                         
                         <form method="post" style="display: inline;">
                             <?php wp_nonce_field('rezo_admin'); ?>
                             <input type="hidden" name="action" value="pausar">
                             <input type="hidden" name="id" value="<?php echo $intencion->id; ?>">
-                            <button type="submit" class="button button-small" title="<?php echo $intencion->activa ? 
-                                $i18n->get('backend', 'btn_pausar', 'Pausar') : 
+                            <button type="submit" class="button button-small" title="<?php echo $intencion->activa ?
+                                $i18n->get('backend', 'btn_pausar', 'Pausar') :
                                 $i18n->get('backend', 'btn_activar', 'Activar'); ?>">
                                 <span class="dashicons dashicons-<?php echo $intencion->activa ? 'pause' : 'controls-play'; ?>"></span>
+                                <?php echo $intencion->activa ?
+                                    $i18n->get('backend', 'btn_pausar', 'Pausar') :
+                                    $i18n->get('backend', 'btn_activar', 'Activar'); ?>
                             </button>
                         </form>
                         
@@ -118,10 +123,11 @@ $intenciones = $wpdb->get_results("SELECT * FROM $table_name ORDER BY activa DES
                             <?php wp_nonce_field('rezo_admin'); ?>
                             <input type="hidden" name="action" value="eliminar">
                             <input type="hidden" name="id" value="<?php echo $intencion->id; ?>">
-                            <button type="submit" class="button button-small button-link-delete" 
+                            <button type="submit" class="button button-small button-link-delete"
                                     onclick="return confirm('<?php echo $i18n->get('backend', 'confirmar_eliminar', '¿Estás seguro? Esta acción eliminará también la página asociada y no se puede deshacer.'); ?>')"
                                     title="<?php echo $i18n->get('backend', 'btn_eliminar', 'Eliminar'); ?>">
                                 <span class="dashicons dashicons-trash"></span>
+                                <?php echo $i18n->get('backend', 'btn_eliminar', 'Eliminar'); ?>
                             </button>
                         </form>
                     </div>

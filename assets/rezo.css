@@ -98,6 +98,9 @@
   color: #007cba;
   text-decoration: none;
   font-weight: 500;
+  display: block;
+  margin: 20px auto 0;
+  text-align: center;
 }
 
 .intencion-content {
@@ -205,6 +208,8 @@
   max-height: 90vh;
   overflow-y: auto;
   position: relative;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .close {
