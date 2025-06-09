@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Rezo Comunitario
  * Description: Plugin para gestionar intenciones de rezo comunitario con contadores de Ave Marías
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: Tu Nombre
  */
 
@@ -28,6 +28,7 @@ class RezoComunitario {
         $this->i18n = Rezo_I18n::get_instance();
         
         add_action('init', array($this, 'init'));
+        add_action('plugins_loaded', array($this, 'load_textdomain'));
         register_activation_hook(__FILE__, array($this, 'activate'));
         register_deactivation_hook(__FILE__, array($this, 'deactivate'));
     }
@@ -74,7 +75,8 @@ class RezoComunitario {
             activa tinyint(1) NOT NULL DEFAULT 1,
             page_id bigint(20) DEFAULT NULL,
             fecha_creacion datetime DEFAULT CURRENT_TIMESTAMP,
-            PRIMARY KEY (id)
+            PRIMARY KEY (id),
+            KEY page_id (page_id)
         ) $charset_collate;";
         
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
@@ -193,10 +195,8 @@ class RezoComunitario {
     }
     
     public function agregar_rezos() {
-        // Verificar nonce
-        if (!wp_verify_nonce($_POST['nonce'], 'rezo_nonce')) {
-            wp_die('Error de seguridad');
-        }
+        // Verificar nonce con la función de WordPress
+        check_ajax_referer('rezo_nonce', 'nonce');
         
         $intencion_id = intval($_POST['intencion_id']);
         $cantidad = intval($_POST['cantidad']);
@@ -210,7 +210,13 @@ class RezoComunitario {
         
         global $wpdb;
         $table_name = $wpdb->prefix . 'rezo_intenciones';
-        
+
+        // Verificar que la intención exista y esté activa
+        $intencion = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE id = %d AND activa = 1", $intencion_id));
+        if (!$intencion) {
+            wp_send_json_error('Intención no válida');
+        }
+
         // Actualizar contador
         $result = $wpdb->query($wpdb->prepare(
             "UPDATE $table_name SET avemarias_actuales = avemarias_actuales + %d WHERE id = %d",
@@ -266,6 +272,13 @@ class RezoComunitario {
         }
         
         return $page_id;
+    }
+
+    /**
+     * Cargar archivos de traducción estándar de WordPress
+     */
+    public function load_textdomain() {
+        load_plugin_textdomain('rezo-comunitario', false, dirname(plugin_basename(__FILE__)) . '/languages');
     }
     
     /**
