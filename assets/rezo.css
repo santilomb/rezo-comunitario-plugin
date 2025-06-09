@@ -135,6 +135,10 @@
   transform: rotate(-90deg);
 }
 
+.progress-ring.rosary {
+  transform: none;
+}
+
 .progress-ring-progress {
   transition: stroke-dashoffset 0.5s ease-in-out;
   stroke-linecap: round;
