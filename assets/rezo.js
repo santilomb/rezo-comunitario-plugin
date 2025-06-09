@@ -135,12 +135,18 @@ window.rezoFunctions = {
       avemariasElement.text(avemariasActuales.toLocaleString() + " / " + objetivo)
       porcentajeElement.text(porcentaje.toFixed(1) + "%")
 
-      const circle = $(".progress-ring-progress")
-      if (circle.length) {
-        const radius = 88
-        const circumference = 2 * Math.PI * radius
-        const offset = circumference - (porcentaje / 100) * circumference
-        circle.css("stroke-dashoffset", offset)
+      const path = $(".progress-ring-progress")
+      if (path.length) {
+        let length = 0
+        const el = path[0]
+        if (el.tagName.toLowerCase() === "circle") {
+          const radius = parseFloat(el.getAttribute("r"))
+          length = 2 * Math.PI * radius
+        } else if (el.getTotalLength) {
+          length = el.getTotalLength()
+        }
+        const offset = length - (porcentaje / 100) * length
+        path.css("stroke-dashoffset", offset)
       }
     }
   },
@@ -149,23 +155,29 @@ window.rezoFunctions = {
     if (typeof window.jQuery === "undefined") return
 
     const $ = window.jQuery
-    const circle = $(".progress-ring-progress")
+    const path = $(".progress-ring-progress")
     const progressContainer = $(".progress-circle")
 
-    if (circle.length === 0 || progressContainer.length === 0) {
+    if (path.length === 0 || progressContainer.length === 0) {
       return
     }
 
     const porcentaje = progressContainer.data("porcentaje")
-    const radius = 88
-    const circumference = 2 * Math.PI * radius
+    let length = 0
+    const el = path[0]
+    if (el.tagName.toLowerCase() === "circle") {
+      const radius = parseFloat(el.getAttribute("r"))
+      length = 2 * Math.PI * radius
+    } else if (el.getTotalLength) {
+      length = el.getTotalLength()
+    }
 
-    circle.css("stroke-dasharray", circumference)
-    circle.css("stroke-dashoffset", circumference)
+    path.css("stroke-dasharray", length)
+    path.css("stroke-dashoffset", length)
 
     setTimeout(() => {
-      const offset = circumference - (porcentaje / 100) * circumference
-      circle.css("stroke-dashoffset", offset)
+      const offset = length - (porcentaje / 100) * length
+      path.css("stroke-dashoffset", offset)
     }, 500)
   },
 }
