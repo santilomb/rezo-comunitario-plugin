@@ -1,0 +1,418 @@
+/* Estilos generales */
+.rezo-intenciones-lista,
+.rezo-intencion-detalle {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Lista de intenciones */
+.intenciones-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.intencion-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.intencion-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.intencion-card h3 {
+  margin: 0 0 16px 0;
+  color: #2c3e50;
+  font-size: 1.25rem;
+}
+
+.progress-container {
+  margin: 16px 0;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background-color: #e9ecef;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #17a2b8, #138496);
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  font-weight: 600;
+  color: #17a2b8;
+}
+
+.avemarias-count {
+  color: #6c757d;
+  margin: 12px 0;
+}
+
+.btn-ver-intencion {
+  display: inline-block;
+  background: #007cba;
+  color: white;
+  padding: 12px 24px;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.btn-ver-intencion:hover {
+  background: #005a87;
+  color: white;
+}
+
+/* Detalle de intención */
+.intencion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.intencion-header h1 {
+  margin: 0;
+  color: #2c3e50;
+}
+
+.btn-volver {
+  color: #007cba;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.intencion-content {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 40px;
+  align-items: start;
+}
+
+.descripcion-section {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.progreso-section {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.progress-circle {
+  position: relative;
+  display: inline-block;
+  margin: 20px 0;
+}
+
+.progress-ring {
+  transform: rotate(-90deg);
+}
+
+.progress-ring-progress {
+  transition: stroke-dashoffset 0.5s ease-in-out;
+  stroke-linecap: round;
+}
+
+.progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.progress-text .porcentaje {
+  display: block;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #17a2b8;
+}
+
+.progress-text .avemarias {
+  display: block;
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin-top: 4px;
+}
+
+.acciones-section {
+  grid-column: 1 / -1;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.btn-agregar-rezos {
+  background: linear-gradient(135deg, #17a2b8, #138496);
+  color: white;
+  border: none;
+  padding: 16px 32px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-agregar-rezos:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(23, 162, 184, 0.3);
+}
+
+/* Modal - Centrado */
+.modal {
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #aaa;
+}
+
+.close:hover {
+  color: #000;
+}
+
+/* Formulario de rezos */
+.cantidad-opciones h3 {
+  margin-bottom: 20px;
+  text-align: center;
+  color: #2c3e50;
+}
+
+.opciones-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.opcion-cantidad {
+  background: white;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.opcion-cantidad:hover {
+  border-color: #17a2b8;
+  transform: translateY(-2px);
+}
+
+.opcion-cantidad.selected {
+  border-color: #17a2b8;
+  background: #f0f9ff;
+}
+
+.opcion-cantidad .icono {
+  display: block;
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+}
+
+.opcion-cantidad .numero {
+  display: block;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #17a2b8;
+  margin-bottom: 8px;
+}
+
+.opcion-cantidad .texto {
+  display: block;
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+#cantidad-personalizada {
+  margin: 20px 0;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+#cantidad-personalizada label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+#cantidad-personalizada input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+/* Captcha */
+.captcha-section {
+  margin: 30px 0;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.captcha-section h3 {
+  margin-bottom: 15px;
+  color: #2c3e50;
+}
+
+.captcha-math {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.captcha-math span {
+  font-weight: 500;
+}
+
+.captcha-math input {
+  width: 80px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-align: center;
+}
+
+/* Botones del formulario */
+.form-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.btn-enviar {
+  background: #17a2b8;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-enviar:hover:not(:disabled) {
+  background: #138496;
+}
+
+.btn-enviar:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.btn-cancelar {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn-cancelar:hover {
+  background: #5a6268;
+}
+
+/* Modal de agradecimiento */
+.modal-gracias {
+  text-align: center;
+}
+
+.modal-gracias h2 {
+  color: #17a2b8;
+  margin-bottom: 20px;
+}
+
+.btn-continuar {
+  background: #17a2b8;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .intencion-content {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .intencion-header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .opciones-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .modal-content {
+    margin: 20px;
+    width: calc(100% - 40px);
+  }
+}
