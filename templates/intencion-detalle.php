@@ -1,4 +1,14 @@
-<?php $porcentaje = ($intencion->avemarias_actuales / $intencion->objetivo_avemarias) * 100; ?>
+<?php
+$porcentaje = ($intencion->avemarias_actuales / $intencion->objetivo_avemarias) * 100;
+$beadRadius = 6;
+$beadsMarkup = '';
+for ($i = 0; $i < 10; $i++) {
+    $angle = deg2rad(-90 + $i * 36);
+    $x = 100 + 88 * cos($angle);
+    $y = 100 + 88 * sin($angle);
+    $beadsMarkup .= '<circle class="rosary-bead" cx="' . $x . '" cy="' . $y . '" r="' . $beadRadius . '"></circle>';
+}
+?>
 
 <div class="rezo-intencion-detalle" data-intencion-id="<?php echo $intencion->id; ?>">
     <div class="intencion-content">
@@ -9,9 +19,10 @@
         <div class="progreso-section">
             <h3><?php echo $i18n->get('frontend', 'progreso_rezos', 'Progreso de Rezos'); ?></h3>
             <div class="progress-circle" data-porcentaje="<?php echo min(100, $porcentaje); ?>">
-                <svg class="progress-ring" width="200" height="200">
-                    <circle class="progress-ring-circle" stroke="#e6e6e6" stroke-width="8" fill="transparent" r="88" cx="100" cy="100"/>
-                    <circle class="progress-ring-progress" stroke="#17a2b8" stroke-width="8" fill="transparent" r="88" cx="100" cy="100"/>
+                <svg class="progress-ring rosary" width="200" height="240" viewBox="0 0 200 240">
+                    <path class="progress-ring-circle" stroke="#e6e6e6" stroke-width="8" fill="transparent" d="M100 12 A88 88 0 1 1 100 188 A88 88 0 1 1 100 12 M100 188 L100 218 M90 218 L110 218 M100 218 L100 238" />
+                    <path class="progress-ring-progress" stroke="#17a2b8" stroke-width="8" fill="transparent" d="M100 12 A88 88 0 1 1 100 188 A88 88 0 1 1 100 12 M100 188 L100 218 M90 218 L110 218 M100 218 L100 238" />
+                    <?php echo $beadsMarkup; ?>
                 </svg>
                 <div class="progress-text">
                     <span class="porcentaje"><?php echo number_format($porcentaje, 1); ?>%</span>
@@ -94,3 +105,4 @@
         </div>
     </div>
 </div>
+
