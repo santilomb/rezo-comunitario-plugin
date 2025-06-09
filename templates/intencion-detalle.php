@@ -1,11 +1,6 @@
 <?php $porcentaje = ($intencion->avemarias_actuales / $intencion->objetivo_avemarias) * 100; ?>
 
 <div class="rezo-intencion-detalle" data-intencion-id="<?php echo $intencion->id; ?>">
-    <div class="intencion-header">
-        <h1><?php echo esc_html($intencion->titulo); ?></h1>
-        <a href="javascript:history.back()" class="btn-volver"><?php echo $i18n->get('frontend', 'btn_volver', '← Volver'); ?></a>
-    </div>
-    
     <div class="intencion-content">
         <div class="descripcion-section">
             <?php echo wp_kses_post($intencion->descripcion); ?>
@@ -30,6 +25,9 @@
                 <?php echo $i18n->get('frontend', 'btn_agregar_rezos', '🙏 Agregar mis Rezos'); ?>
             </button>
         </div>
+        <a href="javascript:history.back()" class="btn-volver">
+            <?php echo $i18n->get('frontend', 'btn_volver', '← Volver'); ?>
+        </a>
     </div>
     
     <!-- Modal del formulario -->
