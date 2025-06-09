@@ -29,12 +29,9 @@ if (isset($_POST['action'])) {
         if ($result) {
             $intencion_id = $wpdb->insert_id;
             
-            // Crear página automáticamente
-            $rezo_plugin = new RezoComunitario();
-            $reflection = new ReflectionClass($rezo_plugin);
-            $method = $reflection->getMethod('crear_pagina_intencion');
-            $method->setAccessible(true);
-            $page_id = $method->invoke($rezo_plugin, $intencion_id, $titulo);
+            // Crear página automáticamente utilizando la instancia principal
+            global $rezo_comunitario;
+            $page_id = $rezo_comunitario->crear_pagina_intencion($intencion_id, $titulo);
             
             echo '<div class="notice notice-success"><p>' . $i18n->get('backend', 'exito_crear', 'Intención creada exitosamente.') . ' <a href="' . get_permalink($page_id) . '" target="_blank">' . $i18n->get('backend', 'btn_ver_pagina', 'Ver página') . '</a></p></div>';
             
@@ -137,6 +134,25 @@ if (isset($_POST['action'])) {
                     </tr>
                 </table>
             </div>
-            
+
             <div class="form-section">
-                <h2><span class="dashicons dashicons-admin-page"></span> <?php echo $i18n->get('backend', 'seccion_
+                <h2><span class="dashicons dashicons-admin-page"></span> <?php echo $i18n->get('backend', 'seccion_contenido', 'Contenido de la Página'); ?></h2>
+                <?php
+                wp_editor(
+                    $intencion_editar ? $intencion_editar->descripcion : '',
+                    'descripcion',
+                    array(
+                        'textarea_name' => 'descripcion',
+                        'media_buttons' => true,
+                        'textarea_rows' => 10
+                    )
+                );
+                ?>
+            </div>
+
+            <p class="submit">
+                <input type="submit" class="button-primary" value="<?php echo $es_edicion ? $i18n->get('backend', 'btn_actualizar', 'Actualizar Intención') : $i18n->get('backend', 'btn_crear', 'Crear Intención'); ?>">
+            </p>
+        </form>
+    </div>
+</div>
