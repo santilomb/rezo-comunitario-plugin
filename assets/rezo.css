@@ -213,6 +213,10 @@
   margin-top: 6px;
 }
 
+.cuentas-completadas {
+  display: none;
+}
+
 .progress-circle.completed .porcentaje {
   color: #0f6674;
   text-shadow: 0 0 12px rgba(23, 162, 184, 0.35);
