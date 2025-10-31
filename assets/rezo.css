@@ -131,6 +131,11 @@
   margin: 20px 0;
 }
 
+.progress-circle svg {
+  display: block;
+  margin: 0 auto;
+}
+
 .progress-ring {
   transform: rotate(-90deg);
 }
@@ -186,9 +191,14 @@
 
 .progress-text {
   position: absolute;
-  top: 50%;
+  top: calc(100% * 100 / 240);
   left: 50%;
   transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
   text-align: center;
 }
 

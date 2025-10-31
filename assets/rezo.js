@@ -126,14 +126,28 @@ window.rezoFunctions = {
     if (typeof window.jQuery === "undefined") return
 
     const $ = window.jQuery
-    const avemariasElement = $(".avemarias")
+    const progressContainers = $(".progress-circle")
 
-    if (avemariasElement.length) {
-      const textoActual = avemariasElement.text()
-      const objetivo = textoActual.split(" / ")[1]
-      avemariasElement.text(avemariasActuales.toLocaleString() + " / " + objetivo)
-      window.rezoFunctions.refreshProgressMeta(porcentaje)
-    }
+    progressContainers.each(function () {
+      const container = $(this)
+      const objetivo = Number.parseInt(container.data("avemariasObjetivo"), 10)
+      const avemariasElement = container.find(".avemarias")
+
+      container.data("avemariasActuales", avemariasActuales)
+      container.attr("data-avemarias-actuales", avemariasActuales)
+
+      if (avemariasElement.length) {
+        if (!Number.isNaN(objetivo) && objetivo > 0) {
+          avemariasElement.text(
+            `${avemariasActuales.toLocaleString()} / ${objetivo.toLocaleString()}`,
+          )
+        } else {
+          avemariasElement.text(avemariasActuales.toLocaleString())
+        }
+      }
+    })
+
+    window.rezoFunctions.refreshProgressMeta(porcentaje)
   },
 
   updateBeads: (porcentaje) => {
@@ -208,6 +222,36 @@ window.rezoFunctions = {
       const container = $(this)
       const porcentajeElement = container.find(".porcentaje")
       const path = container.find(".progress-ring-progress")
+      const progressText = container.find(".progress-text")
+      const objetivo = Number.parseInt(container.data("avemariasObjetivo"), 10)
+      const avemariasElement = container.find(".avemarias")
+      const avemariasActuales = Number.parseInt(container.data("avemariasActuales"), 10) || 0
+
+      if (progressText.length) {
+        progressText
+          .children()
+          .not(".porcentaje, .avemarias")
+          .remove()
+
+        if (typeof Node !== "undefined") {
+          progressText
+            .contents()
+            .filter(function () {
+              return this.nodeType === Node.TEXT_NODE && this.textContent.trim() !== ""
+            })
+            .remove()
+        }
+      }
+
+      if (avemariasElement.length) {
+        if (!Number.isNaN(objetivo) && objetivo > 0) {
+          avemariasElement.text(
+            `${avemariasActuales.toLocaleString()} / ${objetivo.toLocaleString()}`,
+          )
+        } else {
+          avemariasElement.text(avemariasActuales.toLocaleString())
+        }
+      }
 
       container.attr("data-porcentaje", boundedPercentage)
       container.data("porcentaje", boundedPercentage)

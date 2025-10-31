@@ -20,7 +20,12 @@ $porcentaje = min(100, $porcentaje);
         
         <div class="progreso-section">
             <h3><?php echo $i18n->get('frontend', 'progreso_rezos', 'Progreso de Rezos'); ?></h3>
-            <div class="progress-circle<?php echo $porcentaje >= 100 ? ' completed' : ''; ?>" data-porcentaje="<?php echo $porcentaje; ?>">
+            <div
+                class="progress-circle<?php echo $porcentaje >= 100 ? ' completed' : ''; ?>"
+                data-porcentaje="<?php echo $porcentaje; ?>"
+                data-avemarias-actuales="<?php echo (int) $intencion->avemarias_actuales; ?>"
+                data-avemarias-objetivo="<?php echo (int) $intencion->objetivo_avemarias; ?>"
+            >
                 <svg class="progress-ring rosary" width="200" height="240" viewBox="0 0 200 240" aria-hidden="true">
                     <defs>
                         <linearGradient id="rosaryCordGradient" x1="0%" y1="0%" x2="100%" y2="100%">
