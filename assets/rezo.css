@@ -139,18 +139,49 @@
   transform: none;
 }
 
-.progress-ring-progress {
-  transition: stroke-dashoffset 0.5s ease-in-out;
+.progress-ring-circle {
+  stroke: url(#rosaryCordGradient);
+  opacity: 0.85;
+  fill: transparent;
+}
+
+.rosary-tail {
+  fill: none;
+  stroke: url(#rosaryCordGradient);
+  stroke-width: 6;
   stroke-linecap: round;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.progress-ring-progress {
+  transition: stroke-dashoffset 0.6s ease-in-out;
+  stroke: url(#rosaryProgressGradient);
+  stroke-linecap: round;
+  fill: transparent;
+  filter: drop-shadow(0 0 8px rgba(32, 197, 216, 0.45));
+  transform: rotate(-90deg);
+  transform-box: fill-box;
+  transform-origin: center;
 }
 
 .rosary-bead {
-  fill: #e6e6e6;
-  transition: fill 0.3s ease-in-out;
+  fill: url(#rosaryBeadGradient);
+  transition: transform 0.3s ease, filter 0.3s ease;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
 .rosary-bead.filled {
-  fill: #17a2b8;
+  fill: url(#rosaryBeadFilledGradient);
+  filter: url(#beadShadow);
+}
+
+.rosary-bead.just-filled {
+  animation: beadPop 0.6s ease forwards;
+}
+
+.rosary-bead.next-target {
+  filter: drop-shadow(0 0 10px rgba(32, 197, 216, 0.65));
+  animation: beadPulse 1.8s ease-in-out infinite;
 }
 
 .progress-text {
@@ -173,6 +204,52 @@
   font-size: 0.9rem;
   color: #6c757d;
   margin-top: 4px;
+}
+
+.progress-circle.completed .porcentaje {
+  color: #0f6674;
+  text-shadow: 0 0 12px rgba(23, 162, 184, 0.35);
+}
+
+.progress-circle.completed .progress-ring-progress {
+  filter: drop-shadow(0 0 14px rgba(23, 162, 184, 0.55));
+}
+
+@keyframes beadPop {
+  0% {
+    transform: scale(0.8);
+  }
+  60% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes beadPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progress-ring-progress {
+    transition: none;
+  }
+
+  .rosary-bead {
+    transition: none;
+  }
+
+  .rosary-bead.just-filled,
+  .rosary-bead.next-target {
+    animation: none;
+  }
 }
 
 .acciones-section {

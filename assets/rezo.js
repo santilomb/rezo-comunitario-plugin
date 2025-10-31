@@ -127,31 +127,12 @@ window.rezoFunctions = {
 
     const $ = window.jQuery
     const avemariasElement = $(".avemarias")
-    const porcentajeElement = $(".porcentaje")
 
-    if (avemariasElement.length && porcentajeElement.length) {
+    if (avemariasElement.length) {
       const textoActual = avemariasElement.text()
       const objetivo = textoActual.split(" / ")[1]
       avemariasElement.text(avemariasActuales.toLocaleString() + " / " + objetivo)
-      porcentajeElement.text(porcentaje.toFixed(1) + "%")
-
-      const path = $(".progress-ring-progress")
-      if (path.length) {
-        let length = 0
-        const el = path[0]
-        if (el.tagName.toLowerCase() === "circle") {
-          const radius = parseFloat(el.getAttribute("r"))
-          length = 2 * Math.PI * radius
-        } else if (el.getTotalLength) {
-          length = el.getTotalLength()
-        }
-        const offset = length - (porcentaje / 100) * length
-        path.css("stroke-dashoffset", offset)
-      }
-
-      if ($(".rosary-bead").length) {
-        window.rezoFunctions.updateBeads(porcentaje)
-      }
+      window.rezoFunctions.refreshProgressMeta(porcentaje)
     }
   },
 
@@ -159,12 +140,27 @@ window.rezoFunctions = {
     if (typeof window.jQuery === "undefined") return
 
     const $ = window.jQuery
+    const boundedPercentage = Math.min(100, Math.max(0, porcentaje))
+    const nextTargetIndex = boundedPercentage >= 100 ? -1 : Math.floor(boundedPercentage / 10)
+
     $(".rosary-bead").each(function (index) {
       const threshold = (index + 1) * 10
-      if (porcentaje >= threshold) {
-        $(this).addClass("filled")
-      } else {
-        $(this).removeClass("filled")
+      const shouldFill = boundedPercentage >= threshold
+      const wasFilled = $(this).hasClass("filled")
+
+      $(this).toggleClass("filled", shouldFill)
+      $(this).removeClass("next-target")
+
+      if (!wasFilled && shouldFill) {
+        const bead = $(this)
+        bead.addClass("just-filled")
+        setTimeout(() => {
+          bead.removeClass("just-filled")
+        }, 700)
+      }
+
+      if (!shouldFill && index === nextTargetIndex) {
+        $(this).addClass("next-target")
       }
     })
   },
@@ -194,12 +190,77 @@ window.rezoFunctions = {
     path.css("stroke-dashoffset", length)
 
     setTimeout(() => {
-      const offset = length - (porcentaje / 100) * length
+      const boundedPercentage = Math.min(100, Math.max(0, porcentaje))
+      const offset = length - (boundedPercentage / 100) * length
       path.css("stroke-dashoffset", offset)
-      if ($(".rosary-bead").length) {
-        window.rezoFunctions.updateBeads(porcentaje)
-      }
+      window.rezoFunctions.refreshProgressMeta(boundedPercentage)
     }, 500)
+  },
+
+  refreshProgressMeta: (porcentaje) => {
+    if (typeof window.jQuery === "undefined") return
+
+    const $ = window.jQuery
+    const boundedPercentage = Math.min(100, Math.max(0, porcentaje))
+    const progressContainers = $(".progress-circle")
+
+    progressContainers.each(function () {
+      const container = $(this)
+      const porcentajeElement = container.find(".porcentaje")
+      const path = container.find(".progress-ring-progress")
+
+      container.attr("data-porcentaje", boundedPercentage)
+      container.data("porcentaje", boundedPercentage)
+
+      if (path.length) {
+        let length = 0
+        const el = path[0]
+        if (el.tagName.toLowerCase() === "circle") {
+          const radius = parseFloat(el.getAttribute("r"))
+          length = 2 * Math.PI * radius
+        } else if (el.getTotalLength) {
+          length = el.getTotalLength()
+        }
+        const offset = length - (boundedPercentage / 100) * length
+        path.css("stroke-dashoffset", offset)
+      }
+
+      if (porcentajeElement.length) {
+        if (!porcentajeElement.data("defaultText")) {
+          porcentajeElement.data("defaultText", porcentajeElement.text())
+        }
+
+        const completeText = porcentajeElement.data("complete-text") || "¡Rosario completado!"
+        const timeoutId = container.data("completeTimeoutId")
+
+        if (boundedPercentage >= 100) {
+          container.addClass("completed")
+          if (!container.data("completeDisplayed")) {
+            container.data("completeDisplayed", true)
+            porcentajeElement.text(completeText)
+            const newTimeoutId = window.setTimeout(() => {
+              porcentajeElement.text("100%")
+              container.removeData("completeTimeoutId")
+            }, 4000)
+            container.data("completeTimeoutId", newTimeoutId)
+          } else {
+            porcentajeElement.text("100%")
+          }
+        } else {
+          container.removeClass("completed")
+          if (timeoutId) {
+            window.clearTimeout(timeoutId)
+            container.removeData("completeTimeoutId")
+          }
+          container.data("completeDisplayed", false)
+          porcentajeElement.text(`${boundedPercentage.toFixed(1)}%`)
+        }
+      }
+    })
+
+    if ($(".rosary-bead").length) {
+      window.rezoFunctions.updateBeads(boundedPercentage)
+    }
   },
 }
 
