@@ -6,8 +6,10 @@ for ($i = 0; $i < 10; $i++) {
     $angle = deg2rad(-90 + $i * 36);
     $x = 100 + 88 * cos($angle);
     $y = 100 + 88 * sin($angle);
-    $beadsMarkup .= '<circle class="rosary-bead" cx="' . $x . '" cy="' . $y . '" r="' . $beadRadius . '"></circle>';
+    $beadsMarkup .= '<circle class="rosary-bead" data-bead-index="' . $i . '" cx="' . $x . '" cy="' . $y . '" r="' . $beadRadius . '" role="presentation"></circle>';
 }
+
+$porcentaje = min(100, $porcentaje);
 ?>
 
 <div class="rezo-intencion-detalle" data-intencion-id="<?php echo $intencion->id; ?>">
@@ -18,16 +20,43 @@ for ($i = 0; $i < 10; $i++) {
         
         <div class="progreso-section">
             <h3><?php echo $i18n->get('frontend', 'progreso_rezos', 'Progreso de Rezos'); ?></h3>
-            <div class="progress-circle" data-porcentaje="<?php echo min(100, $porcentaje); ?>">
-                <svg class="progress-ring rosary" width="200" height="240" viewBox="0 0 200 240">
-                    <path class="progress-ring-circle" stroke="#e6e6e6" stroke-width="8" fill="transparent" d="M100 12 A88 88 0 1 1 100 188 A88 88 0 1 1 100 12 M100 188 L100 218 M90 218 L110 218 M100 218 L100 238" />
-                    <path class="progress-ring-progress" stroke="#17a2b8" stroke-width="8" fill="transparent" d="M100 12 A88 88 0 1 1 100 188 A88 88 0 1 1 100 12 M100 188 L100 218 M90 218 L110 218 M100 218 L100 238" />
-
+            <div
+                class="progress-circle<?php echo $porcentaje >= 100 ? ' completed' : ''; ?>"
+                data-porcentaje="<?php echo $porcentaje; ?>"
+                data-avemarias-actuales="<?php echo (int) $intencion->avemarias_actuales; ?>"
+                data-avemarias-objetivo="<?php echo (int) $intencion->objetivo_avemarias; ?>"
+            >
+                <svg class="progress-ring rosary" width="200" height="240" viewBox="0 0 200 240" aria-hidden="true">
+                    <defs>
+                        <linearGradient id="rosaryCordGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#d9d9d9" />
+                            <stop offset="100%" stop-color="#b3b3b3" />
+                        </linearGradient>
+                        <linearGradient id="rosaryProgressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#20c5d8" />
+                            <stop offset="100%" stop-color="#138496" />
+                        </linearGradient>
+                        <radialGradient id="rosaryBeadGradient" cx="50%" cy="35%" r="65%">
+                            <stop offset="0%" stop-color="#fdfdfd" />
+                            <stop offset="55%" stop-color="#e6e6e6" />
+                            <stop offset="100%" stop-color="#cfcfcf" />
+                        </radialGradient>
+                        <radialGradient id="rosaryBeadFilledGradient" cx="50%" cy="35%" r="65%">
+                            <stop offset="0%" stop-color="#7ef5ff" />
+                            <stop offset="55%" stop-color="#17a2b8" />
+                            <stop offset="100%" stop-color="#0f6674" />
+                        </radialGradient>
+                        <filter id="beadShadow" x="-50%" y="-50%" width="200%" height="200%">
+                            <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="rgba(0, 0, 0, 0.25)" />
+                        </filter>
+                    </defs>
+                    <circle class="progress-ring-circle" cx="100" cy="100" r="88" stroke-width="8" fill="transparent" />
+                    <path class="rosary-tail" d="M100 188 L100 218 M90 218 L110 218 M100 218 L100 238" />
+                    <circle class="progress-ring-progress" cx="100" cy="100" r="88" stroke-width="8" fill="transparent" />
                     <?php echo $beadsMarkup; ?>
-
                 </svg>
-                <div class="progress-text">
-                    <span class="porcentaje"><?php echo number_format($porcentaje, 1); ?>%</span>
+                <div class="progress-text" aria-live="polite">
+                    <span class="porcentaje" data-complete-text="<?php echo esc_attr($i18n->get('frontend', 'progreso_completo', '¡Rosario completado!')); ?>"><?php echo number_format($porcentaje, 1); ?>%</span>
                     <span class="avemarias"><?php echo number_format($intencion->avemarias_actuales); ?> / <?php echo number_format($intencion->objetivo_avemarias); ?></span>
                 </div>
             </div>
