@@ -58,6 +58,7 @@ $porcentaje = min(100, $porcentaje);
                 <div class="progress-text" aria-live="polite">
                     <span class="porcentaje" data-complete-text="<?php echo esc_attr($i18n->get('frontend', 'progreso_completo', '¡Rosario completado!')); ?>"><?php echo number_format($porcentaje, 1); ?>%</span>
                     <span class="avemarias"><?php echo number_format($intencion->avemarias_actuales); ?> / <?php echo number_format($intencion->objetivo_avemarias); ?></span>
+                    <span class="cuentas-completadas" data-label="<?php echo esc_attr($cuentasLabel); ?>"><?php echo $cuentasLabel . ': ' . $cuentasCompletadas . '/10'; ?></span>
                 </div>
             </div>
         </div>
