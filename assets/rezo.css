@@ -159,6 +159,8 @@
   stroke-linecap: round;
   fill: transparent;
   filter: drop-shadow(0 0 8px rgba(32, 197, 216, 0.45));
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
 }
 
 .rosary-bead {
