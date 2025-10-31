@@ -10,8 +10,6 @@ for ($i = 0; $i < 10; $i++) {
 }
 
 $porcentaje = min(100, $porcentaje);
-$cuentasCompletadas = min(10, (int) floor($porcentaje / 10));
-$cuentasLabel = $i18n->get('frontend', 'cuentas_completadas_label', 'Cuentas completadas');
 ?>
 
 <div class="rezo-intencion-detalle" data-intencion-id="<?php echo $intencion->id; ?>">

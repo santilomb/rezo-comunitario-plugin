@@ -207,7 +207,6 @@ window.rezoFunctions = {
     progressContainers.each(function () {
       const container = $(this)
       const porcentajeElement = container.find(".porcentaje")
-      const cuentasElement = container.find(".cuentas-completadas")
       const path = container.find(".progress-ring-progress")
 
       container.attr("data-porcentaje", boundedPercentage)
@@ -224,12 +223,6 @@ window.rezoFunctions = {
         }
         const offset = length - (boundedPercentage / 100) * length
         path.css("stroke-dashoffset", offset)
-      }
-
-      if (cuentasElement.length) {
-        const label = cuentasElement.data("label") || "Cuentas completadas"
-        const cuentasCompletadas = Math.min(10, Math.floor(boundedPercentage / 10))
-        cuentasElement.text(`${label}: ${cuentasCompletadas}/10`)
       }
 
       if (porcentajeElement.length) {
