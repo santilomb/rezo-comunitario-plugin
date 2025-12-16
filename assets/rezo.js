@@ -160,22 +160,9 @@ window.rezoFunctions = {
     $(".rosary-bead").each(function (index) {
       const threshold = (index + 1) * 10
       const shouldFill = boundedPercentage >= threshold
-      const wasFilled = $(this).hasClass("filled")
 
+      // Simply toggle filled state without animations
       $(this).toggleClass("filled", shouldFill)
-      $(this).removeClass("next-target")
-
-      if (!wasFilled && shouldFill) {
-        const bead = $(this)
-        bead.addClass("just-filled")
-        setTimeout(() => {
-          bead.removeClass("just-filled")
-        }, 700)
-      }
-
-      if (!shouldFill && index === nextTargetIndex) {
-        $(this).addClass("next-target")
-      }
     })
   },
 

@@ -150,12 +150,23 @@
   fill: transparent;
 }
 
-.rosary-tail {
-  fill: none;
+.rosary-connector {
   stroke: url(#rosaryCordGradient);
   stroke-width: 6;
   stroke-linecap: round;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.rosary-extra-bead {
+  fill: #e0e0e0;
+  transition: fill 0.3s ease;
+}
+
+.rosary-cross {
+  fill: none;
+  stroke: #d9d9d9;
+  stroke-width: 6;
+  stroke-linecap: round;
+  transition: stroke 0.3s ease;
 }
 
 .progress-ring-progress {
@@ -171,22 +182,11 @@
 
 .rosary-bead {
   fill: url(#rosaryBeadGradient);
-  transition: transform 0.3s ease, filter 0.3s ease;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  transition: fill 0.3s ease;
 }
 
 .rosary-bead.filled {
   fill: url(#rosaryBeadFilledGradient);
-  filter: url(#beadShadow);
-}
-
-.rosary-bead.just-filled {
-  animation: beadPop 0.6s ease forwards;
-}
-
-.rosary-bead.next-target {
-  filter: drop-shadow(0 0 10px rgba(32, 197, 216, 0.65));
-  animation: beadPulse 1.8s ease-in-out infinite;
 }
 
 .progress-text {
@@ -225,40 +225,26 @@
   filter: drop-shadow(0 0 14px rgba(23, 162, 184, 0.55));
 }
 
-@keyframes beadPop {
-  0% {
-    transform: scale(0.8);
-  }
-  60% {
-    transform: scale(1.15);
-  }
-  100% {
-    transform: scale(1);
-  }
+/* Colorize extra bead and cross at 100% */
+.progress-circle.completed .rosary-extra-bead {
+  fill: #17a2b8;
 }
 
-@keyframes beadPulse {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
+.progress-circle.completed .rosary-cross {
+  stroke: #17a2b8;
 }
+
+/* Animations removed for simpler design */
 
 @media (prefers-reduced-motion: reduce) {
   .progress-ring-progress {
     transition: none;
   }
 
-  .rosary-bead {
+  .rosary-bead,
+  .rosary-extra-bead,
+  .rosary-cross {
     transition: none;
-  }
-
-  .rosary-bead.just-filled,
-  .rosary-bead.next-target {
-    animation: none;
   }
 }
 
@@ -521,4 +507,3 @@
     width: calc(100% - 40px);
   }
 }
-
