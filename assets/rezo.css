@@ -175,7 +175,8 @@
   stroke-linecap: round;
   fill: transparent;
   filter: drop-shadow(0 0 8px rgba(32, 197, 216, 0.45));
-  transform: rotate(-90deg);
+  transform: rotate(126deg);
+  /* Start at bottom-left (216deg - 90deg base) */
   transform-box: fill-box;
   transform-origin: center;
 }
